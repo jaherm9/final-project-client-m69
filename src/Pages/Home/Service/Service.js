@@ -23,8 +23,6 @@ const Service = (props) => {
           
         </Typography>
         <Typography variant="body2">
-          well meaning and kindly.
-          <br />
          {description}
         </Typography>
       </CardContent>
