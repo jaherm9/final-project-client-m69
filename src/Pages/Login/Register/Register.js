@@ -3,16 +3,26 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import login from "../../../images/login.png";
 
-const Login = () => {
+const Register = () => {
   const [loginData, setLoginData] = useState({});
+
   const handleOnChange = (e) => {
     const field = e.target.name;
     const value = e.target.value;
     const newLoginData = { ...loginData };
     newLoginData[field] = value;
     setLoginData(newLoginData);
+    // console.log(field, value, newLoginData)
     // console.log(field, value);
   };
+
+  const handleLoginSubmit = (e) => {
+    if (loginData.password !== loginData.password2) {
+      alert("Your password didn't match");
+      return;
+    }
+  };
+
   const handleLoginSubmit = (e) => {
     alert("Email submited successfully");
     e.preventDefault();
@@ -29,6 +39,7 @@ const Login = () => {
                 id="filled-basic"
                 label="Your Email"
                 name="email"
+                type="email"
                 onChange={handleOnChange}
                 variant="filled"
               />
@@ -41,6 +52,15 @@ const Login = () => {
                 onChange={handleOnChange}
                 autoComplete="current-password"
               />
+              <TextField
+                sx={{ width: "75%", m: 1 }}
+                id="outlined-password-input"
+                label="Retype Your Password"
+                type="password"
+                name="password2"
+                onChange={handleOnChange}
+                autoComplete="current-password"
+              />
               <Button
                 type="submit"
                 sx={{ width: "75%", m: 1 }}
@@ -48,8 +68,8 @@ const Login = () => {
               >
                 Login
               </Button>
-              <NavLink style={{ textDecoration: "none" }} to="/register">
-                <Button variant="text">New user? Please Register</Button>
+              <NavLink style={{ textDecoration: "none" }} to="/login">
+                <Button variant="text">Already Register? Please Login</Button>
               </NavLink>
             </form>
           </Typography>
@@ -62,4 +82,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
