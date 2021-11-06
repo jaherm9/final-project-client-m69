@@ -1,4 +1,3 @@
-import { setDate } from 'date-fns';
 import React from 'react';
 import Navigation from '../../Shared/Navigation/Navigation';
 import AppointmentHeader from '../AppointmentHeader/AppointmentHeader';
