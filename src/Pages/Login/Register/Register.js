@@ -21,12 +21,9 @@ const Register = () => {
       alert("Your password didn't match");
       return;
     }
-  };
-
-  const handleLoginSubmit = (e) => {
-    alert("Email submited successfully");
     e.preventDefault();
   };
+
   return (
     <Container>
       <Grid container spacing={2}>
