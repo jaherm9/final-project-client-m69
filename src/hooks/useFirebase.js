@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  updateProfile,
   signOut,
 } from "firebase/auth";
 
@@ -20,11 +21,22 @@ const useFirebase = () => {
 
   const auth = getAuth();
 
-  const registerUser = (email, password) => {
+  const registerUser = (email, password, name, history) => {
     setIsLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setAuthError("");
+        const newUser = { email, displayName: name };
+
+        setUser(newUser);
+        
+        //send name to firebase after creation
+        updateProfile(auth.currentUser, {
+          displayName: name,
+        })
+          .then(() => {})
+          .catch((error) => {});
+        history.replace("/");
       })
       .catch((error) => {
         setAuthError(error.message);
@@ -91,4 +103,3 @@ const useFirebase = () => {
 };
 
 export default useFirebase;
-// 6 Minute
