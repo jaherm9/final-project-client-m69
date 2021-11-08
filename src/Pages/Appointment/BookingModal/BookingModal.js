@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -23,12 +23,35 @@ const style = {
 const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
   const { name, time } = booking;
   const { user } = useAuth();
+  const initialInfo = {
+    patientName: user.displayName,
+    email: user.email,
+    phone: "",
+  };
+  // for post to database
+  const [bookingInfo, setBookingInfo] = useState({ initialInfo });
+
+  const handleOnBlur = (e) => {
+    const field = e.target.name;
+    const value = e.target.value;
+    const newInfo = { ...bookingInfo };
+    newInfo[field] = value;
+    // console.log(newInfo);
+    setBookingInfo(newInfo);
+  };
+
   const handleBookingSubmit = (e) => {
-    alert("Submited Successfully");
+    // alert("Submited Successfully");
 
     // collect data
+    const appointment = {
+      ...bookingInfo,
+      time,
+      serviceName: name,
+      date: date.toLocalDateString(),
+    };
     // send to the server
-
+    // console.log(appointment);
     handleBookingClose();
     e.preventDefault();
   };
@@ -46,7 +69,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
     >
       <Fade in={openBooking}>
         <Box sx={style}>
-          <Typography id="transition-modal-title" variant="h5" component="h2">
+          <Typography id="transition-modal-title" variant="h6" component="h2">
             {name}
           </Typography>
           <form onSubmit={handleBookingSubmit}>
@@ -60,18 +83,24 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
             <TextField
               sx={{ width: "90%", m: 1 }}
               id="outlined-size-small"
+              name="patientName"
+              onBlur={handleOnBlur}
               defaultValue={user.displayName}
               size="small"
             />
             <TextField
               sx={{ width: "90%", m: 1 }}
               id="outlined-size-small"
+              name="email"
+              onBlur={handleOnBlur}
               defaultValue={user.email}
               size="small"
             />
             <TextField
               sx={{ width: "90%", m: 1 }}
               id="outlined-size-small"
+              name="phone"
+              onBlur={handleOnBlur}
               defaultValue="Phone Number"
               size="small"
             />
