@@ -42,16 +42,29 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
 
   const handleBookingSubmit = (e) => {
     // alert("Submited Successfully");
-
+    e.preventDefault();
     // collect data
     const appointment = {
       ...bookingInfo,
       time,
       serviceName: name,
-      date: date.toLocalDateString(),
+      date: date.toLocaleDateString(),
     };
+
     // send to the server
-    // console.log(appointment);
+    // console.log(appoinment)
+    fetch('http://localhost:5000/appointments', {
+      method: 'POST',
+      headers: {
+        'content-type' : 'application/json'
+      },
+      body: JSON.stringify(appointment)
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+    })
+
     handleBookingClose();
     e.preventDefault();
   };
