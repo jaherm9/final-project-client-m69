@@ -20,7 +20,7 @@ const style = {
   p: 4,
 };
 
-const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
+const BookingModal = ({ openBooking, handleBookingClose, booking, date, setBookingSuccess }) => {
   const { name, time } = booking;
   const { user } = useAuth();
   const initialInfo = {
@@ -29,7 +29,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
     phone: "",
   };
   // for post to database
-  const [bookingInfo, setBookingInfo] = useState({ initialInfo });
+  const [bookingInfo, setBookingInfo] = useState( initialInfo );
 
   const handleOnBlur = (e) => {
     const field = e.target.name;
@@ -50,10 +50,10 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
       serviceName: name,
       date: date.toLocaleDateString(),
     };
-
-    // send to the server
-    // console.log(appoinment)
-    fetch('http://localhost:5000/appointments', {
+      // console.log(appointment);
+    
+      // send to the server
+        fetch('http://localhost:5000/appointments', {
       method: 'POST',
       headers: {
         'content-type' : 'application/json'
@@ -62,10 +62,14 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data)
+      if(data.insertedId){
+        setBookingSuccess(true);
+        handleBookingClose();
+      }
+      
     })
 
-    handleBookingClose();
+    
     e.preventDefault();
   };
   return (
