@@ -29,7 +29,8 @@ const useFirebase = () => {
         const newUser = { email, displayName: name };
 
         setUser(newUser);
-
+        // save user to the database
+        saveUser(email, name);
         //send name to firebase after creation
         updateProfile(auth.currentUser, {
           displayName: name,
@@ -81,7 +82,8 @@ const useFirebase = () => {
     });
     return () => unsubscribe;
   }, []);
-  const logout = () => {
+
+   const logout = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
@@ -91,6 +93,14 @@ const useFirebase = () => {
       })
       .finally(() => setIsLoading(false));
   };
+  const saveUser = (email, displayName) => {
+
+  }
+
+
+
+
+
   return {
     user,
     authError,
